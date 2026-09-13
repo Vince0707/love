@@ -1,0 +1,853 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+    min-height: 100vh;
+    min-height: 100dvh;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+
+    background: linear-gradient(
+        135deg,
+        #ffd6e7,
+        #ffeaf3,
+        #f8d9ff,
+        #ffd1df
+    );
+
+    position: relative;
+}
+
+
+/* =========================
+   MAIN SCREEN
+========================= */
+
+.container {
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+
+    padding:
+        max(25px, env(safe-area-inset-top))
+        max(20px, env(safe-area-inset-right))
+        max(25px, env(safe-area-inset-bottom))
+        max(20px, env(safe-area-inset-left));
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+
+    position: relative;
+    z-index: 10;
+
+    animation: fadeIn 1.5s ease;
+}
+
+.small-text {
+    font-size: clamp(14px, 2.5vw, 18px);
+
+    color: #b85c83;
+
+    letter-spacing: 2px;
+
+    margin-bottom: 12px;
+}
+
+h1 {
+    width: 100%;
+    max-width: 1000px;
+
+    font-size: clamp(34px, 7vw, 64px);
+
+    line-height: 1.15;
+
+    color: #d94f83;
+
+    text-shadow:
+        0 4px 15px
+        rgba(217, 79, 131, 0.25);
+
+    margin-bottom: 15px;
+}
+
+.message {
+    font-size: clamp(17px, 3vw, 22px);
+
+    line-height: 1.5;
+
+    color: #a94e73;
+
+    margin-bottom: 30px;
+
+    max-width: 90%;
+}
+
+
+/* =========================
+   BUTTON
+========================= */
+
+#clickButton {
+    border: none;
+
+    padding:
+        clamp(14px, 3vw, 17px)
+        clamp(30px, 7vw, 45px);
+
+    font-size: clamp(17px, 3vw, 21px);
+
+    font-weight: bold;
+
+    color: white;
+
+    background: linear-gradient(
+        135deg,
+        #ff76a8,
+        #e95891
+    );
+
+    border-radius: 50px;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 8px 25px
+        rgba(220, 76, 130, 0.35);
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+
+    -webkit-tap-highlight-color: transparent;
+
+    touch-action: manipulation;
+}
+
+#clickButton:hover {
+    transform: scale(1.08);
+
+    box-shadow:
+        0 12px 35px
+        rgba(220, 76, 130, 0.45);
+}
+
+#clickButton:active {
+    transform: scale(0.95);
+}
+
+
+/* =========================
+   LOVE SCREEN
+========================= */
+
+.love-screen {
+    position: fixed;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    min-height: 100vh;
+    min-height: 100dvh;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    opacity: 0;
+    visibility: hidden;
+
+    z-index: 20;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(255, 255, 255, 0.7),
+            transparent 45%
+        );
+
+    transition:
+        opacity 1s ease,
+        visibility 1s ease;
+
+    /*
+       Allows the complete design to remain accessible
+       on short screens.
+    */
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    padding:
+        max(20px, env(safe-area-inset-top))
+        max(15px, env(safe-area-inset-right))
+        max(25px, env(safe-area-inset-bottom))
+        max(15px, env(safe-area-inset-left));
+}
+
+.love-screen.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+
+/* =========================
+   LOVE CONTENT
+========================= */
+
+.love-content {
+    width: 100%;
+    max-width: 900px;
+
+    text-align: center;
+
+    margin: auto;
+
+    transform: scale(0.5);
+
+    transition:
+        transform 1s
+        cubic-bezier(
+            0.175,
+            0.885,
+            0.32,
+            1.275
+        );
+
+    padding: 10px 0 25px;
+}
+
+.love-screen.show .love-content {
+    transform: scale(1);
+}
+
+
+/* =========================
+   MATHEMATICAL HEART
+========================= */
+
+#heartCanvas {
+    /*
+       Responsive width:
+       - small phones: almost full width
+       - tablets: larger
+       - desktop: maximum 700px
+    */
+    width: min(700px, 94vw);
+
+    /*
+       Responsive height.
+    */
+    height: clamp(
+        380px,
+        68vh,
+        560px
+    );
+
+    min-height: 380px;
+
+    position: relative;
+
+    margin: 0 auto;
+
+    animation: heartAppear 1.5s ease;
+
+    /*
+       Prevents the heart from causing
+       horizontal overflow.
+    */
+    max-width: 100%;
+}
+
+
+/* =========================
+   I LOVE YOU TEXT
+========================= */
+
+.heart-text {
+    position: absolute;
+
+    transform:
+        translate(-50%, -50%);
+
+    color: #e83f83;
+
+    font-family: Arial, sans-serif;
+
+    /*
+       Automatically scales down
+       on smaller screens.
+    */
+    font-size: clamp(
+        7px,
+        1.45vw,
+        10px
+    );
+
+    font-weight: bold;
+
+    letter-spacing: 0.5px;
+
+    white-space: nowrap;
+
+    text-shadow:
+        0 1px 4px
+        rgba(255, 255, 255, 0.8);
+
+    opacity: 0;
+
+    animation:
+        textAppear
+        0.8s ease
+        forwards;
+
+    pointer-events: none;
+}
+
+
+/* =========================
+   FINAL MESSAGE
+========================= */
+
+.love-content h2 {
+    font-size: clamp(
+        28px,
+        5vw,
+        42px
+    );
+
+    line-height: 1.2;
+
+    color: #df4c87;
+
+    margin-top: 5px;
+
+    text-shadow:
+        0 4px 12px
+        rgba(220, 70, 130, 0.25);
+}
+
+.love-content p {
+    font-size: clamp(
+        16px,
+        3vw,
+        20px
+    );
+
+    line-height: 1.4;
+
+    color: #a94e73;
+
+    margin-top: 8px;
+
+    padding: 0 10px;
+}
+
+
+/* =========================
+   FLOATING HEARTS
+========================= */
+
+.floating-heart {
+    position: fixed;
+
+    color:
+        rgba(
+            255,
+            91,
+            148,
+            0.55
+        );
+
+    font-size: clamp(
+        35px,
+        7vw,
+        70px
+    );
+
+    animation:
+        float
+        6s ease-in-out
+        infinite;
+
+    pointer-events: none;
+
+    z-index: 1;
+}
+
+.heart1 {
+    left: 6%;
+    top: 14%;
+
+    animation-delay: 0s;
+}
+
+.heart2 {
+    right: 6%;
+    top: 18%;
+
+    animation-delay: 1.5s;
+}
+
+.heart3 {
+    left: 8%;
+    bottom: 10%;
+
+    animation-delay: 3s;
+}
+
+.heart4 {
+    right: 9%;
+    bottom: 12%;
+
+    animation-delay: 4s;
+}
+
+
+/* =========================
+   SPARKLES
+========================= */
+
+.sparkle {
+    position: fixed;
+
+    color: #ffffff;
+
+    font-size: clamp(
+        22px,
+        4vw,
+        35px
+    );
+
+    opacity: 0.8;
+
+    animation:
+        sparkle
+        2s ease-in-out
+        infinite;
+
+    pointer-events: none;
+
+    z-index: 2;
+}
+
+.sparkle1 {
+    top: 18%;
+    left: 30%;
+}
+
+.sparkle2 {
+    top: 35%;
+    right: 25%;
+
+    animation-delay: 0.7s;
+}
+
+.sparkle3 {
+    bottom: 22%;
+    left: 35%;
+
+    animation-delay: 1.2s;
+}
+
+
+/* =========================
+   HEART APPEAR
+========================= */
+
+@keyframes heartAppear {
+
+    from {
+        transform: scale(0.3);
+
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+
+        opacity: 1;
+    }
+}
+
+
+/* =========================
+   TEXT APPEAR
+========================= */
+
+@keyframes textAppear {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translate(-50%, -50%)
+            scale(0.3);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translate(-50%, -50%)
+            scale(1);
+    }
+}
+
+
+/* =========================
+   MAIN FADE IN
+========================= */
+
+@keyframes fadeIn {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0);
+    }
+}
+
+
+/* =========================
+   FLOATING HEART ANIMATION
+========================= */
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform:
+            translateY(0)
+            rotate(-10deg);
+    }
+
+    50% {
+        transform:
+            translateY(-25px)
+            rotate(10deg);
+    }
+}
+
+
+/* =========================
+   SPARKLE ANIMATION
+========================= */
+
+@keyframes sparkle {
+
+    0%,
+    100% {
+        transform:
+            scale(0.7);
+
+        opacity: 0.3;
+    }
+
+    50% {
+        transform:
+            scale(1.3);
+
+        opacity: 1;
+    }
+}
+
+
+/* =========================
+   SMALL PHONES
+   320px - 480px
+========================= */
+
+@media (max-width: 480px) {
+
+    .container {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .small-text {
+        letter-spacing: 1px;
+    }
+
+    h1 {
+        font-size: clamp(
+            30px,
+            9vw,
+            40px
+        );
+    }
+
+    .message {
+        max-width: 95%;
+    }
+
+    #clickButton {
+        min-height: 52px;
+
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+
+    .love-screen {
+        align-items: flex-start;
+
+        padding-top: 15px;
+        padding-bottom: 25px;
+    }
+
+    .love-content {
+        padding-top: 5px;
+    }
+
+    #heartCanvas {
+        width: 100%;
+
+        /*
+           Keeps enough vertical space
+           without making the page huge.
+        */
+        height: 440px;
+
+        min-height: 400px;
+    }
+
+    .heart-text {
+        font-size: 7px;
+
+        letter-spacing: 0.3px;
+    }
+
+    .love-content h2 {
+        font-size: 30px;
+
+        margin-top: 0;
+    }
+
+    .love-content p {
+        font-size: 16px;
+    }
+
+    .heart1 {
+        left: 2%;
+        top: 10%;
+    }
+
+    .heart2 {
+        right: 2%;
+        top: 13%;
+    }
+
+    .heart3 {
+        left: 3%;
+        bottom: 8%;
+    }
+
+    .heart4 {
+        right: 3%;
+        bottom: 9%;
+    }
+}
+
+
+/* =========================
+   VERY SMALL PHONES
+   320px and below
+========================= */
+
+@media (max-width: 350px) {
+
+    #heartCanvas {
+        height: 400px;
+
+        min-height: 380px;
+    }
+
+    .heart-text {
+        font-size: 6px;
+    }
+
+    .love-content h2 {
+        font-size: 27px;
+    }
+
+    .love-content p {
+        font-size: 15px;
+    }
+}
+
+
+/* =========================
+   SHORT MOBILE SCREENS
+========================= */
+
+@media (max-height: 700px) {
+
+    .love-screen {
+        align-items: flex-start;
+
+        padding-top: 10px;
+    }
+
+    #heartCanvas {
+        height: 400px;
+
+        min-height: 370px;
+    }
+
+    .love-content h2 {
+        font-size: 30px;
+    }
+}
+
+
+/* =========================
+   MOBILE LANDSCAPE
+========================= */
+
+@media (
+    max-height: 500px
+) and (
+    orientation: landscape
+) {
+
+    .container {
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+
+    h1 {
+        font-size: 34px;
+
+        margin-bottom: 8px;
+    }
+
+    .small-text {
+        font-size: 13px;
+
+        margin-bottom: 6px;
+    }
+
+    .message {
+        font-size: 16px;
+
+        margin-bottom: 15px;
+    }
+
+    #clickButton {
+        min-height: 45px;
+
+        padding-top: 10px;
+        padding-bottom: 10px;
+
+        font-size: 16px;
+    }
+
+    .love-screen {
+        align-items: flex-start;
+
+        padding-top: 5px;
+        padding-bottom: 15px;
+    }
+
+    #heartCanvas {
+        width: min(
+            85vw,
+            600px
+        );
+
+        height: 330px;
+
+        min-height: 300px;
+    }
+
+    .heart-text {
+        font-size: 6px;
+    }
+
+    .love-content h2 {
+        font-size: 27px;
+    }
+
+    .love-content p {
+        font-size: 15px;
+
+        margin-top: 4px;
+    }
+
+    .floating-heart {
+        font-size: 35px;
+    }
+
+    .sparkle {
+        font-size: 20px;
+    }
+}
+
+
+/* =========================
+   TABLETS
+========================= */
+
+@media (
+    min-width: 481px
+) and (
+    max-width: 1024px
+) {
+
+    #heartCanvas {
+        width: min(
+            700px,
+            90vw
+        );
+
+        height: min(
+            560px,
+            70vh
+        );
+    }
+}
+
+
+/* =========================
+   REDUCED MOTION
+   Accessibility
+========================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+
+        animation-iteration-count: 1 !important;
+
+        transition-duration: 0.01ms !important;
+    }
+}
